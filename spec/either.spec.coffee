@@ -142,3 +142,11 @@ requirejs ["bass","either","plus","wstring","wlist","functor","applicative","mon
         f = (a)=>@left(a+10)
         g = (a)=>@left(a+30)
         expect((@left(a).bind(f)).bind(g).get).toEqual(@left(a).bind((x)->f(x).bind(g)).get)
+
+    # bug0001: should do the fold on fa in the ap function for either.left
+    #          to handle the case of left,left,right properly
+    describe "when there are two errors and one success", ->
+      it "should accumulate only the two errors and nothing more", ->
+        x = @either.pure((a,b,c)->a+b+c).ap(@left @wlist ["error a"]).ap(@left @wlist ["error b"]).ap(@right "success")
+        expect(x.get.get).toEqual(["error a","error b"])
+        

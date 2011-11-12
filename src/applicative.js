@@ -26,8 +26,8 @@ define(["bass","maybe","either","functor","folder"], function(bass,maybe,either,
   instance(applicative,either.left,{
     ap: function(fa) {
       var that = this;
-      return this.fold(function(e) {
-        return either.left("mappend" in that.get ? e.mappend(fa.get) : e)
+      return fa.fold(function(e) {
+        return either.left("mappend" in that.get ? that.get.mappend(e) : that.get)
       },function(a){return either.left(that.get)})
     }
   });
