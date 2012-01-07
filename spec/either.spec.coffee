@@ -5,9 +5,9 @@ describe "when the either module is used", ->
     @either = bassline.either
     @left = @either.left
     @right = @either.right
-    @plus = bassline.plus
-    @wstring = bassline.wstring
-    @wlist = bassline.wlist
+    @sum = bassline.sum.sum
+    @stringw = bassline.stringw.stringw
+    @listw = bassline.listw.listw
 
   it "should have a Left constructor", ->
     expect(@left "test").toBeDefined
@@ -87,11 +87,11 @@ describe "when the either module is used", ->
 
   describe "validation with a list", ->
     it "should accumulate the errors", ->
-      x = @either.pure((a,b,c)->a+b+c).ap(@left @wlist ["error a"]).ap(@left @wlist ["error b"]).ap(@left @wlist ["error c"])
+      x = @either.pure((a,b,c)->a+b+c).ap(@left @listw ["error a"]).ap(@left @listw ["error b"]).ap(@left @listw ["error c"])
       expect(x.get.get).toEqual(["error a","error b","error c"])
-      y = @either.pure((a,b,c)->a+b+c).ap(@left @wstring "error a").ap(@left @wstring "error b").ap(@left @wstring "error c")
+      y = @either.pure((a,b,c)->a+b+c).ap(@left @stringw "error a").ap(@left @stringw "error b").ap(@left @stringw "error c")
       expect(y.get.get).toEqual("error a" + "error b" + "error c")
-      z = @either.pure((a,b,c)->a+b+c).ap(@left @plus 2).ap(@left @plus 3).ap(@left @plus 4)
+      z = @either.pure((a,b,c)->a+b+c).ap(@left @sum 2).ap(@left @sum 3).ap(@left @sum 4)
       expect(z.get.get).toEqual(2 + 3 + 4)
 
   describe "when used as a Monad", ->
@@ -138,5 +138,5 @@ describe "when the either module is used", ->
   #          to handle the case of left,left,right properly
   describe "when there are two errors and one success", ->
     it "should accumulate only the two errors and nothing more", ->
-      x = @either.pure((a,b,c)->a+b+c).ap(@left @wlist ["error a"]).ap(@left @wlist ["error b"]).ap(@right "success")
+      x = @either.pure((a,b,c)->a+b+c).ap(@left @listw ["error a"]).ap(@left @listw ["error b"]).ap(@right "success")
       expect(x.get.get).toEqual(["error a","error b"])
