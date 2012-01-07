@@ -1,2 +1,4 @@
 .*swp
-lib
+node_modules
+tmp
+README.html
