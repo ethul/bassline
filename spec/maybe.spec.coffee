@@ -38,7 +38,7 @@ describe "when the maybe module is used", ->
       x = @just 10
       expect(x.get).toEqual(@maybe.pure(id).ap(x).get)
       x = @nothing()
-      expect(x.__proto__.constructor).toEqual(@maybe.pure(id).ap(x).__proto__.constructor)
+      expect(x.get).toEqual(@maybe.pure(id).ap(x).get)
 
     it "should hold to composition: forall af,ag,a . af.ap(ag.ap(a)) == pure(compose).ap(af).ap(ag).ap(a)", ->
       compose = (a,b) -> (x) -> a(b(x))
@@ -49,27 +49,27 @@ describe "when the maybe module is used", ->
       af = @nothing()
       ag = @just((a) -> a+6)
       a = @just(5)
-      expect(af.ap(ag.ap(a)).__proto__.constructor).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).__proto__.constructor)
+      expect(af.ap(ag.ap(a)).get).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).get)
       af = @just((a) -> a+4)
       ag = @nothing()
       a = @just(5)
-      expect(af.ap(ag.ap(a)).__proto__.constructor).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).__proto__.constructor)
+      expect(af.ap(ag.ap(a)).get).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).get)
       af = @just((a) -> a+4)
       ag = @just((a) -> a+6)
       a = @nothing()
-      expect(af.ap(ag.ap(a)).__proto__.constructor).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).__proto__.constructor)
+      expect(af.ap(ag.ap(a)).get).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).get)
       af = @nothing()
       ag = @nothing()
       a = @just(5)
-      expect(af.ap(ag.ap(a)).__proto__.constructor).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).__proto__.constructor)
+      expect(af.ap(ag.ap(a)).get).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).get)
       af = @nothing()
       ag = @just((a) -> a+6)
       a = @nothing()
-      expect(af.ap(ag.ap(a)).__proto__.constructor).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).__proto__.constructor)
+      expect(af.ap(ag.ap(a)).get).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).get)
       af = @nothing()
       ag = @nothing()
       a = @nothing()
-      expect(af.ap(ag.ap(a)).__proto__.constructor).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).__proto__.constructor)
+      expect(af.ap(ag.ap(a)).get).toEqual(@maybe.pure(compose).ap(af).ap(ag).ap(a).get)
 
     it "should hold to homomorphism: forall f a . pure(f).ap(pure(a)) == pure(f(a))", ->
       f = (a) -> a+20
@@ -80,7 +80,7 @@ describe "when the maybe module is used", ->
       f = (a) -> a+10
       a = 30
       expect(@just(f).ap(@maybe.pure(a)).get).toEqual(@maybe.pure((g) -> g(a)).ap(@just(f)).get)
-      expect(@nothing().ap(@maybe.pure(a)).__proto__.constructor).toEqual(@maybe.pure((g) -> g(a)).ap(@nothing()).__proto__.constructor)
+      expect(@nothing().ap(@maybe.pure(a)).get).toEqual(@maybe.pure((g) -> g(a)).ap(@nothing()).get)
 
   describe "when used as a Monad", ->
     it "should hold to left identity: forall f,a . f(a) == return(a).bind(f)", ->
@@ -91,11 +91,11 @@ describe "when the maybe module is used", ->
     it "should hold to right identity: forall ma . ma == ma.bind(x -> return(x))", ->
       a = 10
       expect(@just(a).get).toEqual(@just(a).bind((x)=>@maybe.return(x)).get)
-      expect(@nothing().__proto__.constructor).toEqual(@nothing().bind((x)=>@maybe.return(x)).__proto__.constructor)
+      expect(@nothing().get).toEqual(@nothing().bind((x)=>@maybe.return(x)).get)
 
     it "should hold to associativity: forall ma,f,g . (ma.bind(f)).bind(g) == ma.bind(x -> f(x).bind(g))", ->
       a = 10
       f = (a)=>@just(a+10)
       g = (a)=>@just(a+30)
       expect((@just(a).bind(f)).bind(g).get).toEqual(@just(a).bind((x)->f(x).bind(g)).get)
-      expect((@nothing().bind(f)).bind(g).__proto__.constructor).toEqual(@nothing().bind((x)->f(x).bind(g)).__proto__.constructor)
+      expect((@nothing().bind(f)).bind(g).get).toEqual(@nothing().bind((x)->f(x).bind(g)).get)
