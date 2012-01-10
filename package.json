@@ -1,0 +1,27 @@
+{
+  "name": "bassline",
+  "version": "0.0.0",
+  "description": "JavaScript library",
+  "keywords": [
+    "library"
+  ],
+  "author": "Eric Thul <thul.eric@gmail.com>",
+  "contributors": [
+    {
+      "name": "Eric Thul",
+      "email": "thul.eric@gmail.com"
+    }
+  ],
+  "devDependencies": {
+    "jasmine-node": "~1.0.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://ethul@github.com/ethul/bassline.git"
+  },
+  "bugs": "https://github.com/ethul/bassline/issues",
+  "licenses": [
+    "MIT"
+  ],
+  "main": "index"
+}

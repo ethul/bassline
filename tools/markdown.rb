@@ -8,6 +8,7 @@ BASS = "bass"
 README = "README.md"
 TEST = "README.html"
 
+=begin
 File.open(README, "w") do |file|
   file.puts IO.readlines("#{TOOLS}/#{MODULE}.#{EXT}").
   select {|a| a.match /\A\s*("#{BASS}|,)/}.
@@ -21,6 +22,7 @@ File.open(README, "w") do |file|
   }.
   join("\n")
 end
+=end
 
 # run the readme through the github markup library to see how it looks before committing
 File.open(TEST, "w") do |file|
