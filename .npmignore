@@ -1,5 +1,6 @@
 *.swp
 **/.gitignore
+**/.gitkeep
 .gitignore
 .npmignore
 npm_modules/
