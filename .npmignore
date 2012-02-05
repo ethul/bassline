@@ -1,8 +1,7 @@
 *.swp
+**/.gitignore
 .gitignore
 .npmignore
-README.html
+npm_modules/
 spec/
 tmp/
-tools/
-npm_modules/
