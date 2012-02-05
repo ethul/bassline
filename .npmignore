@@ -1,0 +1,7 @@
+*.swp
+**/.gitignore
+.gitignore
+.npmignore
+npm_modules/
+spec/
+tmp/
