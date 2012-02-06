@@ -1,6 +1,6 @@
 {
     "name": "bassline"
-  , "version": "0.0.2"
+  , "version": "0.0.3"
   , "description": "JavaScript library providing Maybe and Either objects"
   , "keywords": ["maybe","nothing","just","either","left","right","functor","applicative","monad"]
   , "author": "eric thul <thul.eric@gmail.com>"
