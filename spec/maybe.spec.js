@@ -126,4 +126,13 @@ describe("when the maybe module is used", function() {
       expect((this.nothing().bind(f)).bind(g).get).toEqual(this.nothing().bind(function(x) {return f(x).bind(g);}).get);
     });
   });
+
+  // Issue #1
+  describe("when fold is called on nothing with a function having optional arguments", function() {
+    it("should invoke the function", function() {
+      var expected = "in nothing";
+      var next = function(error) {return expected;};
+      expect(this.nothing().fold(next, function(){console.log("in just");})).toEqual(expected);
+    });
+  });
 });
