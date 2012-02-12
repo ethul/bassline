@@ -22,9 +22,6 @@ describe("when the promise module is used", function() {
     it("should indicated that it has not been fulfilled", function() {
       expect(this.p.fulfilled()).toBeFalsy();
     });
-    it("should indicate that it has not failed", function() {
-      expect(this.p.failed()).toBeFalsy();
-    });
   });
 
   describe("when a promise has been fulfilled at creation", function() {
@@ -37,9 +34,6 @@ describe("when the promise module is used", function() {
     });
     it("should indicated that it has been fulfilled", function() {
       expect(this.p.fulfilled()).toBeTruthy();
-    });
-    it("should indicate that it has not failed", function() {
-      expect(this.p.failed()).toBeFalsy();
     });
   });
 
@@ -54,26 +48,6 @@ describe("when the promise module is used", function() {
     });
     it("should indicated that it has been fulfilled", function() {
       expect(this.p.fulfilled()).toBeTruthy();
-    });
-    it("should indicate that it has not failed", function() {
-      expect(this.p.failed()).toBeFalsy();
-    });
-  });
-
-  describe("when a promise has failed", function() {
-    beforeEach(function() {
-      this.p = this.promise();
-      this.e = "error"
-      this.p.fail(this.e);
-    });
-    it("should get the error that failed the promise", function() {
-      expect(this.p.get()).toEqual(this.e);
-    });
-    it("should indicated that it has not been fulfilled", function() {
-      expect(this.p.fulfilled()).toBeFalsy();
-    });
-    it("should indicate that it has failed", function() {
-      expect(this.p.failed()).toBeTruthy();
     });
   });
 
@@ -143,32 +117,11 @@ describe("when the promise module is used", function() {
 
     it("should pipe the result through each function via bind", function() {
       var promise = this.promise;
-      this.asyncf().bind(this.asyncg).bind(this.asynch).fold(function(){},function(a) {
+      this.asyncf().bind(this.asyncg).bind(this.asynch).fold(function(a) {
         expect(a).toEqual({f:true,g:false,h:false});
         asyncSpecDone();
       });
       asyncSpecWait();
-    });
-
-    describe("when one of the async functions fails", function() {
-      beforeEach(function() {
-        var promise = this.promise;
-        this.asyncFail = function(a) {
-          var p = promise();
-          path.exists("/tmp/h",function(exists) {
-            p.fail("error");
-          });
-          return p;
-        };
-      });
-      it("should result in a failed promise", function() {
-        var promise = this.promise;
-        this.asyncf().bind(this.asyncFail).bind(this.asynch).fold(function(e) {
-          console.log("in eee",e);
-          asyncSpecDone();
-        },function(){console.log("aaa")});
-        //asyncSpecWait();
-      });
     });
   });
 });
