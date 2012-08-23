@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/ethul/bassline.png)](http://travis-ci.org/ethul/bassline)
 # Bassline
 
 Bassline is a JavaScript library that exposes two primary types, `maybe`
